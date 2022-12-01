@@ -35,6 +35,9 @@ app.use(morgan("tiny"))
 const user = require('./routes/user')
 const product = require('./routes/product')
 const category = require('./routes/category')
+const cart = require('./routes/cart')
+const payment = require('./routes/payment')
+const address = require('./routes/address')
 
 
 // router middleware
@@ -42,6 +45,9 @@ const category = require('./routes/category')
 app.use('/api/v1',user)
 app.use('/api/v1',product)
 app.use('/api/v1',category)
+app.use('/api/v1',cart)
+app.use('/api/v1',payment)
+app.use('/api/v1',address)
 
 
 
