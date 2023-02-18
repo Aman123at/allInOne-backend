@@ -51,7 +51,7 @@ exports.captureRazorpayPayment = async (req,res,next)=>{
         
         let instance = new Razorpay({ key_id: process.env.RAZORPAY_API_KEY, key_secret: process.env.RAZORPAY_SECRET })
         let options = {
-            amount: 500000,
+            amount: req.body.amount,
             currency: "INR",
             receipt: "receipt#5",
            

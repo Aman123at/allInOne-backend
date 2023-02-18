@@ -66,3 +66,23 @@ exports.removeItemsFromCart=async(req,res,next)=>{
 
    
 }
+
+exports.clearCart=async(req,res,next)=>{
+    
+    let userId = req.params.userId
+    Cart.deleteMany({user:userId})
+    .then((resp)=>{
+        
+        return res.status(200).json({
+            success:true
+        })
+    })
+    .catch((e)=>{
+        return res.status(400).json({
+            success:false,
+            message:e
+        })
+    })
+
+    
+}
