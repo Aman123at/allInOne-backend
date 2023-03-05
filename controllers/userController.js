@@ -11,16 +11,16 @@ exports.signup = async (req,res,next)=>{
    
     
 
-    const {name,email,password} = req.body
+    const {name,email,password,gender} = req.body
     const alreadyUser = await User.findOne({email})
     if(alreadyUser){
 
         return errorBlock(res,400,'Email already exists, please login to continue.')
     }
    
-    if(!email || !name || !password){
+    if(!email || !name || !password || !gender){
       
-        return errorBlock(res,400,'Name, email and password are required.')
+        return errorBlock(res,400,'Name, email, gender and password are required.')
 
 
        
@@ -34,6 +34,7 @@ exports.signup = async (req,res,next)=>{
         name,
         email,
         password,
+        gender
         // photo:{
         //     id:result.public_id,
         //     secure_url:result.secure_url

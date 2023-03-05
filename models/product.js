@@ -69,6 +69,10 @@ const productSchema = new mongoose.Schema({
             comment:{
                 type:String,
                 required:true
+            },
+            time:{
+                type:String,
+                required:true
             }
         }
     ],

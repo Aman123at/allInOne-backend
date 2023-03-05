@@ -35,6 +35,15 @@ const addressSchema = new mongoose.Schema({
         ref:'User',
         required:true
     },
+    type:{
+        type:String
+    },
+    otherTypeVal:{
+        type:String
+    },
+    isDefaultAddress:{
+        type:Boolean
+    }
 })
 
 module.exports = mongoose.model('Address',addressSchema)

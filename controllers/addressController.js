@@ -27,6 +27,7 @@ exports.addAddress = async(req,res,next)=>{
         if(!req.body.landmark){
             return errorBlock(res,400,"Landmark is required")
         }
+       
         req.body.user = req.user._id
 
         let address = await Address.create(req.body)
@@ -34,6 +35,44 @@ exports.addAddress = async(req,res,next)=>{
             success:true,
             address
         })
+    }catch(e){
+        return errorBlock(res,500,e)
+    }
+}
+
+
+exports.makeDefaultAddress = async(req,res,next)=>{
+    try{
+        if(!req.params.addressId){
+            return errorBlock(res,400,"Address id is required")
+        }
+
+        let newDefaultAddress = await Address.findById(req.params.addressId)
+        let allAddress = await Address.find({user:req.user._id})
+        let oldDefaultAddress = allAddress.filter((item)=>item.isDefaultAddress==true)
+        if(oldDefaultAddress.length>0){
+
+            Address.findByIdAndUpdate(oldDefaultAddress[0]._id,{isDefaultAddress:false})
+            .then(()=>{
+                Address.findByIdAndUpdate(newDefaultAddress._id,{isDefaultAddress:true})
+                .then(()=>{
+
+                    return res.status(200).json({
+                        success:true,
+                        message:"Updated successfully.",
+                        
+                    })
+                })
+                .catch((e)=>{return errorBlock(res,401,"Unable to update")})
+            }
+            ).catch((e)=>
+                {return errorBlock(res,401,"Unable to update")}
+            )
+        }
+       
+       
+        
+        
     }catch(e){
         return errorBlock(res,500,e)
     }

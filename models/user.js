@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema({
         type:String,
         default:'user'
     },
+    gender:{
+        type:String,
+        
+    },
+    darkMode:{
+        type:Boolean,
+        default:false
+    },
     photo:{
         id:{
             type:String,
