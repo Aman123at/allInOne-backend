@@ -57,6 +57,25 @@ exports.getUser = async(req,res,next)=>{
     }
 }
 
+exports.changeViewMode=async(req,res,next)=>{
+    let darkmode = req.body.darkmode
+
+    let user = await User.findById(req.user._id)
+
+    if(user){
+        User.findByIdAndUpdate(req.user._id,{darkMode:darkmode})
+        .then(()=> res.status(200).json({
+            success:true,
+            user:req.user
+        }))
+        .catch((e)=>  errorBlock(res,400,'Unable to change mode.'))
+    }
+    else{
+        return errorBlock(res,400,'User not found.')
+    }
+
+}
+
 
 exports.login = async (req,res,next)=>{
     const {email,password} = req.body
