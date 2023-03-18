@@ -177,14 +177,7 @@ exports.logout = async (req,res,next)=>{
 //     cookieToken(user,res)
 // })
 
-// exports.getLoggedInUserDetails = BigPromise(async (req,res,next)=>{
-//     const user = await User.findById(req.user.id)
 
-//     res.status(200).json({
-//         success:true,
-//         user
-//     })
-// })
 
 
 // exports.changePassword = BigPromise(async (req,res,next)=>{
@@ -252,67 +245,11 @@ exports.logout = async (req,res,next)=>{
 
 
 
-// exports.adminAllUsers = BigPromise(async (req,res,next)=>{
-//     const user = await User.find({})
-//     res.status(200).json({
-//         success:true,
-//         user
-//     })
-// })
-// exports.admingetOneUser = BigPromise(async (req,res,next)=>{
-//     const {id} = req.params
-//     const user = await User.findById(id)
-//     if(!user){
-//         return next(new CustomError('No user found',400))
-//     }
-//     res.status(200).json({
-//         success:true,
-//         user
-//     })
-// })
-// exports.adminUpdateOneUserDetails = BigPromise(async (req,res,next)=>{
-//     const newData = {
-//         name:req.body.name,
-//         email:req.body.email,
-//         role:req.body.role
-//     }
-
-//     const {id} = req.params
-//     const user = await User.findByIdAndUpdate(id,newData,{
-//         new:true,
-//         runValidators:true,
-//         useFindAndModify:false
-//     })
-//     if(!user){
-//         return next(new CustomError('No user found',400))
-//     }
-//     res.status(200).json({
-//         success:true,
-//         user
-//     })
-// })
-
-// exports.adminDeleteOneUser = BigPromise(async (req,res,next)=>{
-//     const {id} = req.params
-//     const user = await User.findById(id)
-//     if(!user){
-//         return next(new CustomError('No user found',401))
-//     }
-//     const imageId = user.photo.id
-//     await cloudinary.v2.uploader.destroy(imageId)
-//     await user.remove()
-//     res.status(200).json({
-//         success:true,
-//         message:"User deleted successfully."
-//     })
-// })
 
 
 
-// exports.managerAllUsers = BigPromise(async (req,res,next)=>{
-//     const user = await User.find({role:'user'})
-//     res.status(200).json({
-//         success:true,
-//         user
-//     })
-// })
+
+
+
+
+
