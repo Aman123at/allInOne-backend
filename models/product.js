@@ -18,6 +18,9 @@ const productSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
+    discountPercentage:{
+        type:Number,
+    },
     images:[
     {
         id:{

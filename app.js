@@ -9,10 +9,17 @@ const fileUpload = require('express-fileupload')
 
 // cross origin requests
 // app.use(cors({
-//     // origin: ['http://localhost:8081','http://localhost:8088','http://localhost:3000'],
-//     origin: '*',
+//     origin: ['http://localhost:3000'],
+//     // origin: '*',
 //     credentials: true,
 // }))
+
+// app.use(
+//     cors({
+//       origin: "*",
+//       credentials: true,
+//     })
+//   );
 app.use(cors())
 // app.use(function(req, res, next) {
 //     res.header("Access-Control-Allow-Origin", "*");

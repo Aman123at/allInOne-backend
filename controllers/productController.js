@@ -52,10 +52,64 @@ exports.addProduct = async (req,res,next)=>{
         product
     })
 }
+exports.addProductBulk = async (req,res,next)=>{
+    
+    const {data} = req.body
+   
+
+    let requestData = data.map((prod)=>{
+        prod.user = req.user.id
+        prod.price= prod.price*82
+        return prod
+    })
+    // req.body.user = req.user.id
+
+    const product = await Product.insertMany(requestData)
+
+    res.status(200).json({
+        success:true,
+        product,
+        total:requestData.length
+    })
+}
 
 
 
+exports.searchProduct = async (req,res,next)=>{
+    const {keyword,subcat,priceRange} = req.query;
+    let findQuery = {}
+    if(!keyword){
+        return errorBlock(res,404,'No product found with this keyword.')
+    }
+    if (subcat && priceRange){
+        // if both present
+        findQuery = {subCategory:subcat,price:{$lte:priceRange},name:{$regex: new RegExp(keyword, 'i')}} 
+    }else if (subcat){
+        // if only subcat activated
+        findQuery = {subCategory:subcat,name:{$regex: new RegExp(keyword, 'i')}}
+    }else if (priceRange){
+        // if only price range activated
+        findQuery = {price:{$lte:priceRange},name:{$regex: new RegExp(keyword, 'i')}}
+    }else{
+        // if no filter activated
+        // findQuery = {name:keyword}
+        findQuery = {name:{$regex: new RegExp(keyword, 'i')}}
+    }
 
+    if (Object.keys(findQuery).length>0){
+        const product = await Product.find(findQuery)
+      
+        return res.status(200).json({ 
+            success:true,
+            product,
+                
+        })
+        
+    }else{
+        return errorBlock(res,404,'No query found.')
+    }
+    
+}
 
 
 
@@ -78,6 +132,42 @@ exports.getOneProduct = async (req,res,next)=>{
     res.status(200).json({ 
         success:true,
         product,
+        
+    })
+}
+
+
+exports.getProductsInBatches = async (req,res,next)=>{
+    const {batchSize,currentPage} = req.query 
+    const {subCategory} = req.body
+    if(!batchSize || !currentPage){
+        return errorBlock(res,401,'No product found.')
+        
+    }
+    const skipAmount =( currentPage - 1 ) * batchSize;
+    const product = await Product.find(subCategory ? {subCategory}:{}).skip(parseInt(skipAmount)).limit(parseInt(batchSize)).exec()
+
+    res.status(200).json({ 
+        success:true,
+        subCategory:subCategory?subCategory:"",
+        isSubCat:subCategory?true:false,
+        count:product?product.length:0 ,
+        product,
+        
+    })
+}
+
+
+exports.getProductBySubcategory = async (req,res,next)=>{
+    
+    const products = await Product.find({subCategory:req.body.subCategory})
+    if(!products){
+        return errorBlock(res,401,'No product found with this subCategory.')
+        
+    }
+    res.status(200).json({ 
+        success:true,
+        products,
         
     })
 }

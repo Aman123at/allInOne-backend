@@ -1,10 +1,15 @@
 const express = require('express')
-const { getAllProduct, getOneProduct, addProduct, adminDeleteProduct, removeProductImage, addProductImage, updateProduct } = require('../controllers/productController')
+const { getAllProduct, getOneProduct, addProduct, adminDeleteProduct, removeProductImage, addProductImage, updateProduct, addProductBulk, getProductBySubcategory, getProductsInBatches, searchProduct } = require('../controllers/productController')
 const router = express.Router()
 
 const { isLoggedIn, customRole } = require('../middlewares/user')
 // user routes
 router.route("/products").get(getAllProduct)
+router.route("/product/search").get(searchProduct)
+router.route("/products/subcategory").post(getProductBySubcategory)
+router.route("/products/subcategory/batches").post(getProductsInBatches)
+router.route("/products/batches").get(getProductsInBatches)
+router.route("/bulkproducts").post(isLoggedIn,customRole("admin"),addProductBulk)
 router.route("/product/:id").get(getOneProduct).delete(isLoggedIn,customRole("admin"),adminDeleteProduct)
 
 // admin routes
