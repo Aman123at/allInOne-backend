@@ -6,13 +6,22 @@ const app = express()
 const cookieParser = require('cookie-parser')
 const fileUpload = require('express-fileupload')
 
+const getAllowedOriginsList=()=>{
+    const origins = process.env.ALLOWED_ORIGINS
+    if(origins && origins.split(",").length>0){
+        return origins.split(",")
+    }else{
+        return '*'
+    }
+}
+
 
 // cross origin requests
-// app.use(cors({
-//     origin: ['http://localhost:3000'],
-//     // origin: '*',
-//     credentials: true,
-// }))
+app.use(cors({
+    origin: getAllowedOriginsList(),
+    // origin: '*',
+    credentials: true,
+}))
 
 // app.use(
 //     cors({
