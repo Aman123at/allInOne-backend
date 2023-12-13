@@ -7,7 +7,7 @@ const cookieToken = (user,res)=>{
         ),
         httpOnly:true,
         sameSite: 'None',
-        // secure: false,
+        secure: true,
         
 
     }
