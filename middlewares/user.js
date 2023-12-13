@@ -8,7 +8,6 @@ const errorBlock = require("../utils/errorBlock")
 
 
 exports.isLoggedIn = BigPromise(async (req,res,next)=>{
-    console.log("IP is : ",req.ip)
     const token = req.cookies.token || req.header("Authorization")?.replace("Bearer ","")
 
     if(!token){
