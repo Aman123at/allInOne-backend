@@ -67,6 +67,33 @@ exports.removeItemsFromCart=async(req,res,next)=>{
    
 }
 
+
+exports.updateCartItemQuantity=async(req,res,next)=>{
+    const cartItemId = req.params.id
+    if(cartItemId){
+        let cartItem = await Cart.findById(cartItemId)
+        if(!cartItem){
+            return errorBlock(res,404,'Cart Item not found with this id.')
+        }
+        let quantity = req.body.quantity
+        if(!quantity){
+            return errorBlock(res,400,'Product Quantity is required.')
+        }
+        cartItem.quantity = quantity
+        cartItem.save().then((resp)=>{
+            return res.status(200).json({
+                success:true,
+                cartItem:resp
+            })
+        })
+      .catch((e)=>{
+        return errorBlock(res,500,"Something went wrong while updating quantity.")
+      })
+    }else{
+        return errorBlock(res,400,'Cart Item Id is required in parameters.')
+    }
+}
+
 exports.clearCart=async(req,res,next)=>{
     
     let userId = req.params.userId
